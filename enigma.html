@@ -45,25 +45,27 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <button>Cancle</button>
-                        <button>Apply</button>
+                        <button onclick="cancleSet()">Cancle</button>
+                        <button onclick="applySet()">Apply</button>
                     </div>
-                    <div id="rotors" onclick="displayRotorSettings();">
+                    <div id="rotors">
+
                         <div class="rotor" id="rotor1">
-                            <div class="letter nextLetter" id="rotor1Next" onclick="previousRotor(1);">D</div>
-                            <div class="letter currentLetter" id="rotor1Current">C</div>
-                            <div class="letter previousLetter" id="rotor1Previous" onclick="nextRotor(1);">B</div>
+                            <div class="letter nextLetter" id="rotor1Next" onclick="previousRotor(0);">B</div>
+                            <div class="letter currentLetter" id="rotor1Current" onclick="displayRotorSettings();">A</div>
+                            <div class="letter previousLetter" id="rotor1Previous" onclick="nextRotor(0);">Z</div>
                         </div>
                         <div class="rotor" id="rotor2">
-                            <div class="letter nextLetter" id="rotor2Next" onclick="previousRotor(2);">E</div>
-                            <div class="letter currentLetter" id="rotor2Current">D</div>
-                            <div class="letter previousLetter" id="rotor2Previous" onclick="nextRotor(2);">C</div>
+                            <div class="letter nextLetter" id="rotor2Next" onclick="previousRotor(1);">B</div>
+                            <div class="letter currentLetter" id="rotor2Current" onclick="displayRotorSettings();">A</div>
+                            <div class="letter previousLetter" id="rotor2Previous" onclick="nextRotor(1);">Z</div>
                         </div>
                         <div class="rotor" id="rotor3">
-                            <div class="letter nextLetter" id="rotor3Next" onclick="previousRotor(3);">C</div>
-                            <div class="letter currentLetter" id="rotor3Current">B</div>
-                            <div class="letter previousLetter" id="rotor3Previous" onclick="nextRotor(3);">A</div>
+                            <div class="letter nextLetter" id="rotor3Next" onclick="previousRotor(2);">B</div>
+                            <div class="letter currentLetter" id="rotor3Current" onclick="displayRotorSettings();">A</div>
+                            <div class="letter previousLetter" id="rotor3Previous" onclick="nextRotor(2);">Z</div>
                         </div>
+                        <!-- <button class="rotor-btn" onclick="displayRotorSettings();">Set</button> -->
                     </div>
                     <div id="lampboard">
                         <div class="light" id="lightQ">Q</div>
@@ -71,20 +73,19 @@
                         <div class="light" id="lightE">E</div>
                         <div class="light" id="lightR">R</div>
                         <div class="light" id="lightT">T</div>
-                        <div class="light" id="lightZ">Z</div>
+                        <div class="light" id="lightY">Y</div>
                         <div class="light" id="lightU">U</div>
                         <div class="light" id="lightI">I</div>
                         <div class="light" id="lightO">O</div>
                         <div class="light" id="lightA" style="clear: left; margin-left:48px;">A</div>
                         <div class="light" id="lightS">S</div>
                         <div class="light" id="lightD">D</div>
-                        <div class="light" id="lightF"> F</div>
+                        <div class="light" id="lightF">F</div>
                         <div class="light" id="lightG">G</div>
                         <div class="light" id="lightH">H</div>
                         <div class="light" id="lightJ">J</div>
                         <div class="light" id="lightK">K</div>
-                        <div class="light" id="lightP" style="clear: left;">P</div>
-                        <div class="light" id="lightY">Y</div>
+                        <div class="light" id="lightZ" style="clear: left;">Z</div>
                         <div class="light" id="lightX">X</div>
                         <div class="light" id="lightC">C</div>
                         <div class="light" id="lightV">V</div>
@@ -92,6 +93,7 @@
                         <div class="light" id="lightN">N</div>
                         <div class="light" id="lightM">M</div>
                         <div class="light" id="lightL">L</div>
+                        <div class="light" id="lightP">P</div>
                     </div>
                     <div class="line"></div>
                     <div id="keyboard">
@@ -100,7 +102,7 @@
                         <div class="key" onclick="pressKey(this);" id="keyE">E</div>
                         <div class="key" onclick="pressKey(this);" id="keyR">R</div>
                         <div class="key" onclick="pressKey(this);" id="keyT">T</div>
-                        <div class="key" onclick="pressKey(this);" id="keyZ">Z</div>
+                        <div class="key" onclick="pressKey(this);" id="keyY">Y</div>
                         <div class="key" onclick="pressKey(this);" id="keyU">U</div>
                         <div class="key" onclick="pressKey(this);" id="keyI">I</div>
                         <div class="key" onclick="pressKey(this);" id="keyO">O</div>
@@ -112,8 +114,7 @@
                         <div class="key" onclick="pressKey(this);" id="keyH">H</div>
                         <div class="key" onclick="pressKey(this);" id="keyJ">J</div>
                         <div class="key" onclick="pressKey(this);" id="keyK">K</div>
-                        <div class="key" onclick="pressKey(this);" id="keyP" style="clear: left;">P</div>
-                        <div class="key" onclick="pressKey(this);" id="keyY">Y</div>
+                        <div class="key" onclick="pressKey(this);" id="keyZ" style="clear: left;">Z</div>
                         <div class="key" onclick="pressKey(this);" id="keyX">X</div>
                         <div class="key" onclick="pressKey(this);" id="keyC">C</div>
                         <div class="key" onclick="pressKey(this);" id="keyV">V</div>
@@ -121,6 +122,7 @@
                         <div class="key" onclick="pressKey(this);" id="keyN">N</div>
                         <div class="key" onclick="pressKey(this);" id="keyM">M</div>
                         <div class="key" onclick="pressKey(this);" id="keyL">L</div>
+                        <div class="key" onclick="pressKey(this);" id="keyP">P</div>
                     </div>
                     <div class="line"></div>
                     <div id="plugboard">
@@ -129,7 +131,7 @@
                         <div class="plug" onclick="plug(this);">E</div>
                         <div class="plug" onclick="plug(this);">R</div>
                         <div class="plug" onclick="plug(this);">T</div>
-                        <div class="plug" onclick="plug(this);">Z</div>
+                        <div class="plug" onclick="plug(this);">Y</div>
                         <div class="plug" onclick="plug(this);">U</div>
                         <div class="plug" onclick="plug(this);">I</div>
                         <div class="plug" onclick="plug(this);">O</div>
@@ -141,8 +143,7 @@
                         <div class="plug" onclick="plug(this);">H</div>
                         <div class="plug" onclick="plug(this);">J</div>
                         <div class="plug" onclick="plug(this);">K</div>
-                        <div class="plug" style="clear: left;" onclick="plug(this);">P</div>
-                        <div class="plug" onclick="plug(this);">Y</div>
+                        <div class="plug" style="clear: left;" onclick="plug(this);">Z</div>
                         <div class="plug" onclick="plug(this);">X</div>
                         <div class="plug" onclick="plug(this);">C</div>
                         <div class="plug" onclick="plug(this);">V</div>
@@ -150,6 +151,7 @@
                         <div class="plug" onclick="plug(this);">N</div>
                         <div class="plug" onclick="plug(this);">M</div>
                         <div class="plug" onclick="plug(this);">L</div>
+                        <div class="plug" onclick="plug(this);">P</div>
                     </div>
                 </div>
             </div>
@@ -160,7 +162,7 @@
                 <div id="ciphertext">
                     <h2>Ciphertext:</h2>
                 </div>
-                <div id="options"><a onclick="decrypt();">Decrypt</a><a onclick="encrypt();">Encrypt</a><a onclick="clearText();">Clear</a><a onclick="showLog();" style="margin-right:60px;">Show Encryption Steps</a></div>
+                <div id="options"><a onclick="switchToDecrypt();">Decrypt</a><a onclick="switchToEncrypt();">Encrypt</a><a onclick="clearText();">Clear</a><a onclick="showLog();" style="margin-right:60px;">Show Encryption Steps</a></div>
             </div>
             <div class="main-bottom"></div>
         </div>
