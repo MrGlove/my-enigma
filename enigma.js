@@ -118,7 +118,15 @@ const wheel2rvs = new Map(arrow2.map((v) => [v[1], v[0]]))
 const wheel3 = new Map(arrow3)
 const wheel3rvs = new Map(arrow3.map((v) => [v[1], v[0]]))
 const reflector = new Map(reflect)
+
+const colorList = ['red', 'yellow', 'green', 'blue', 'pink', 'orange', 'purple', 'brown', 'aqua', 'darkcyan', 'gold', 'grey', 'navy']
+const colorManage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var plugFlag = true
+var pluging = ''
+var plugMap = new Map()
+
 var wheelposes = [0, 0, 0]
+var log = ``
 
 function previousRotor(i) {
     wheelposes[i] = (wheelposes[i] + 25) % 26;
@@ -134,20 +142,28 @@ function nextRotor(i) {
 }
 
 var pressKey = function(e) {
+    let inputletter = e.id.at(-1)
 
-    //加密
-    let rawletter = e.id.at(-1)
-    let cyletter = encrypt(rawletter, ...wheelposes)
+    log += `<br>Keyboard Input: ${inputletter}`
+    log += `<br>Wheels Positions: [${wheelposes.toString()}]`
+    let rawletter = plugMap.has(inputletter) ? plugMap.get(inputletter) : inputletter
+    log += `<br>Plugboard Encryption: ${rawletter}`
+    let cyletter = encrypt(rawletter, ...wheelposes) //加密
+    let outputletter = plugMap.has(cyletter) ? plugMap.get(cyletter) : cyletter
+    log += `<br>Plugboard Encryption: ${outputletter}`
+    log += `<br>------------------------------------------------`
 
-    document.querySelector(`#light${cyletter}`).className = 'lightOn' //亮灯
+    document.querySelector(`#light${outputletter}`).className = 'lightOn' //亮灯
     setTimeout(() => {
-        document.querySelector(`#light${cyletter}`).className = 'light'
+        document.querySelector(`#light${outputletter}`).className = 'light'
     }, 600)
 
     nextRotor(2)
 
     document.querySelector('#plaintext').innerHTML += e.innerHTML //写
-    document.querySelector('#ciphertext').innerHTML += cyletter
+    document.querySelector('#ciphertext').innerHTML += outputletter
+    document.querySelector('#log').innerHTML += log
+    log = ``
 
 }
 
@@ -155,28 +171,35 @@ function encrypt(rawletter, pos1, pos2, pos3) {
     let wheel3input = LetterCollection[(LetterCollection.indexOf(rawletter) + pos3) % 26]
         //console.log(wheel3input);
     let wheel3output = wheel3.get(wheel3input)
+    log += `<br>Wheel3 Encryption: ${wheel3output}`
         //console.log(wheel3output);
     let wheel2input = LetterCollection[(LetterCollection.indexOf(wheel3output) + pos2) % 26]
         //console.log(wheel2input);
     let wheel2output = wheel2.get(wheel2input)
+    log += `<br>Wheel2 Encryption: ${wheel2output}`
         //console.log(wheel2output);
     let wheel1input = LetterCollection[(LetterCollection.indexOf(wheel2output) + pos1) % 26]
         //console.log(wheel1input);
     let wheel1output = wheel1.get(wheel1input)
+    log += `<br>Wheel1 Encryption: ${wheel1output}`
         //console.log(wheel1output);
     let reverseraw = reflector.get(wheel1output)
+    log += `<br>Reflector Encryption: ${reverseraw}`
         //console.log(reverseraw);
     let wheel1rvsinput = reverseraw
         //console.log(wheel1rvsinput);
     let wheel1rvsoutput = wheel1rvs.get(wheel1rvsinput)
+    log += `<br>Wheel1 Reverse Encryption: ${wheel1rvsoutput}`
         //console.log(wheel1rvsoutput);
     let wheel2rvsinput = LetterCollection[(LetterCollection.indexOf(wheel1rvsoutput) - pos1 + 26) % 26]
         //console.log(wheel2rvsinput);
     let wheel2rvsoutput = wheel2rvs.get(wheel2rvsinput)
+    log += `<br>Wheel2 Reverse Encryption: ${wheel2rvsoutput}`
         //console.log(wheel2rvsoutput);
     let wheel3rvsinput = LetterCollection[(LetterCollection.indexOf(wheel2rvsoutput) - pos2 + 26) % 26]
         //console.log(wheel3rvsinput);
     let wheel3rvsoutput = wheel3rvs.get(wheel3rvsinput)
+    log += `<br>Wheel3 Reverse Encryption: ${wheel3rvsoutput}`
         //console.log(wheel3rvsoutput);
     let res = LetterCollection[(LetterCollection.indexOf(wheel3rvsoutput) - pos3 + 26) % 26]
     return res
@@ -226,4 +249,50 @@ function applySet() {
     wheelposes = [LetterCollection.indexOf(rotor1set), LetterCollection.indexOf(rotor2set), LetterCollection.indexOf(rotor3set)]
     refreshRotor()
     document.querySelector('.settings').style.display = 'none'
+}
+
+function plug(e) {
+    let temp = e.innerHTML
+    let tempR
+    if (e.style.background) {
+        if (plugMap.has(temp)) {
+            colorManage[colorList.findIndex((v) => v == e.style.background)] = 0
+            tempR = plugMap.get(temp)
+            plugMap.delete(tempR)
+            plugMap.delete(temp)
+            document.getElementById(`plug${temp}`).style.background = ''
+            document.getElementById(`plug${tempR}`).style.background = ''
+        } else {
+            colorManage[colorList.findIndex((v) => v == e.style.background)] = 0
+            document.getElementById(`plug${temp}`).style.background = ''
+            plugFlag = true
+        }
+    } else {
+        if (plugFlag) {
+            pluging = temp
+            drawPlugPanel(pluging)
+            plugFlag = false
+        } else {
+            plugMap.set(temp, pluging)
+            plugMap.set(pluging, temp)
+            drawPlugPanel(temp)
+            plugFlag = true
+            console.log(plugMap);
+        }
+    }
+}
+
+function drawPlugPanel(char) {
+    let colorindex
+    for (let i = 12; i >= 0; i--) {
+        if (colorManage[i] == 0) {
+            colorindex = i
+        }
+        if (colorManage[i] == 1) {
+            colorindex = i
+            break;
+        }
+    }
+    document.getElementById(`plug${char}`).style.background = colorList[colorindex]
+    colorManage[colorindex]++
 }

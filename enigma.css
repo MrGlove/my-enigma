@@ -10,7 +10,7 @@ div {
 
 .container {
     width: 780px;
-    height: 1470px;
+    height: 1700px;
     background-color: #444;
 }
 
@@ -226,4 +226,17 @@ div {
     cursor: pointer;
     text-decoration: underline;
     font-weight: bold;
+}
+
+#log {
+    display: block;
+    width: 720px;
+    color: white;
+    height: 300px;
+    overflow: auto;
+    text-align: left;
+    border: 1px solid white;
+    padding: 10px;
+    margin: 0px auto;
+    font-family: courier new;
 }
